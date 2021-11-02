@@ -176,3 +176,30 @@ services:
       KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:29092'
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
+
+  redis:
+      image: 'bitnami/redis:latest'
+      ports:
+        - 6379:6379
+      environment:
+          - ALLOW_EMPTY_PASSWORD=yes
+
+  neo4j:
+    image: neo4j:3.4-enterprise
+    hostname: neo4j
+    container_name: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_kafka_zookeeper_connect: zookeeper:2181
+      NEO4J_kafka_bootstrap_servers: broker:9093
+      NEO4J_AUTH: neo4j/connect
+      NEO4J_dbms_memory_heap_max__size: 8G
+      NEO4J_ACCEPT_LICENSE_AGREEMENT: 'yes'
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
